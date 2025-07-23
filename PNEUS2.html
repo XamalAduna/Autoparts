@@ -92,10 +92,17 @@ if(!data){
   `;
 
   // Boutons action (message WA auto)
-  const msg = encodeURIComponent(
-  "Bonjour, je suis intéressé par " + data.nom + " (" + formatPrix(data.prix) + " " + data.devise + "). Est-il disponible ?"
-);
 
+  const firstImage = window.location.origin + "/" + data.images[0]; 
+  const msg = encodeURIComponent(
+  "Bonjour, je suis intéressé par " + data.nom + 
+  " (" + formatPrix(data.prix) + " " + data.devise + ").\nImage du produit : " + firstImage
+);
+document.getElementById('btn-wa').href = "https://wa.me/" + data.wa + "?text=" + msg;
+
+
+
+  
 // Utilise les numéros propres au produit
 document.getElementById('btn-wa').href = "https://wa.me/" + data.wa + "?text=" + msg;
 document.getElementById('btn-appel').href = "tel:" + data.tel;
