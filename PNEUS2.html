@@ -93,11 +93,13 @@ if(!data){
 
   // Boutons action (message WA auto)
 
-  const firstImage = window.location.origin + "/" + data.images[0]; 
-  const msg = encodeURIComponent(
-  "Bonjour, je suis intéressé par " + data.nom + 
-  " (" + formatPrix(data.prix) + " " + data.devise + ").\nImage du produit : " + firstImage
+ const baseURL = "https://xamaladuna.github.io/Autoparts/";
+
+const firstImage = baseURL + data.images[0];
+const msg = encodeURIComponent(
+  `Bonjour, je suis intéressé par ${data.nom} (${formatPrix(data.prix)} ${data.devise}).\nImage du produit : ${firstImage}`
 );
+
 document.getElementById('btn-wa').href = "https://wa.me/" + data.wa + "?text=" + msg;
 
 
