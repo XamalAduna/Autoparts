@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pneus</title>
+<link rel="stylesheet" href="Produits.css">
+
+
+</head>
+<body>
+
+<header>
+  <div class="logo">AutoParts</div>
+  <nav>
+    <ul>
+      <li><a href="Accueil.html">Accueil</a></li>
+      <li><a href="#pneus">Pneus</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h2>Nos Pneus</h2>
+  <div class="produits-grid">
+
+    <a href="PNEUS2.html?id=pneu1" class="produit-card">
+      <div class="slider" data-index="0">
+        <div class="slider-images">
+          <img src="img/pneu.webp" alt="Pneu Michelin Energy 16">
+          <img src="img/pneu.webp" alt="Pneu Michelin Energy 16">
+          <img src="img/pneu.webp" alt="Pneu Michelin Energy 16">
+        </div>
+        <button class="slider-btn left" aria-label="Image précédente">&#10094;</button>
+        <button class="slider-btn right" aria-label="Image suivante">&#10095;</button>
+      </div>
+      <h3>Pneu Michelin Energy 16</h3>
+      <p>Prix : 60 000 FCFA</p>
+      <p>Fiable </p>
+    </a>
+
+    <a href="PNEUS2.html?id=pneu1" class="produit-card">
+      <div class="slider" data-index="0">
+        <div class="slider-images">
+          <img src="img/pneu.webp" alt="Pneu Michelin Energy 16">
+          <img src="img/pneu.webp" alt="Pneu Michelin Energy 16">
+          <img src="img/pneu.webp" alt="Pneu Michelin Energy 16">
+        </div>
+        <button class="slider-btn left" aria-label="Image précédente">&#10094;</button>
+        <button class="slider-btn right" aria-label="Image suivante">&#10095;</button>
+      </div>
+      <h3>Moteur ford scape 2017</h3>
+      <p>Prix : 60 000 FCFA</p> 
+      
+      
+    </a>
+
+    <a href="PNEUS2.html?id=pneu1" class="produit-card">
+      <div class="slider" data-index="0">
+        <div class="slider-images">
+          <img src="img/pneu.webp" alt="Pneu Michelin Energy 16">
+          <img src="img/pneu.webp" alt="Pneu Michelin Energy 16">
+          <img src="img/pneu.webp" alt="Pneu Michelin Energy 16">
+        </div>
+        <button class="slider-btn left" aria-label="Image précédente">&#10094;</button>
+        <button class="slider-btn right" aria-label="Image suivante">&#10095;</button>
+      </div>
+      <h3>Pneu Michelin Energy 16</h3>
+      <p>Prix : 60 000 FCFA</p>
+      <p>Fiable </p>
+    </a>
+
+
+
+    
+  </div>
+</main>
+
+<script>
+  // Même script que dans ton premier code pour gérer chaque slider indépendamment
+  document.querySelectorAll('.slider').forEach(sliderEl => {
+    let currentIndex = 0;
+    const imagesEl = sliderEl.querySelector('.slider-images');
+    const total = imagesEl.children.length;
+
+    function updateSlider(){
+      imagesEl.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+    }
+
+    sliderEl.querySelector('.left').addEventListener('click', e => {
+      e.preventDefault();
+      currentIndex = (currentIndex > 0) ? currentIndex - 1 : total - 1;
+      updateSlider();
+    });
+
+    sliderEl.querySelector('.right').addEventListener('click', e => {
+      e.preventDefault();
+      currentIndex = (currentIndex < total - 1) ? currentIndex + 1 : 0;
+      updateSlider();
+    });
+  });
+
+</script>
+</body>
+</html>
