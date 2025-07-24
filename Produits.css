@@ -117,12 +117,11 @@
   }
 
 
-
-
 @media (max-width: 600px) {
-  .produit-card {
-    width: 48%;
-    box-sizing: border-box;
+  .produits-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
+
+
 
