@@ -57,6 +57,8 @@
     flex-direction: column;
 
      transition: transform 0.3s ease;
+    width:45%;
+    padding: 10px;
   }
 
   .produit-card:hover {
