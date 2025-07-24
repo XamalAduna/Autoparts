@@ -59,11 +59,6 @@
     transition: transform 0.3s ease;
 
   
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* centre les cartes même s’il en manque une */
-    gap: 1rem;
-
   
   }
 
