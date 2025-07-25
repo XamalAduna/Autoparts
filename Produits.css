@@ -41,11 +41,26 @@
     color:#333;
   }
 
- .produits-grid {
+
+/* Par défaut, sur les grands écrans (ordinateur) */
+.produits-grid {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(2, 1fr); /* Deux colonnes fixes */
+  grid-template-columns: repeat(4, 1fr); /* 4 colonnes sur un grand écran */
 }
+
+/* Sur les petits écrans (mobile) */
+@media (max-width: 600px) {
+  .produits-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur mobile */
+  }
+}
+
+
+ 
+
+
+
 
   .produit-card {
     background:#fff;
