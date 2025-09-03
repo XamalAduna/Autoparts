@@ -43,12 +43,25 @@
     a:hover, button:hover {
       background: #00796B;
     }
+    .password-wrapper {
+      position: relative;
+      margin-top: 10px;
+    }
     input {
       padding: 10px;
-      margin-top: 10px;
       width: 100%;
       border: 1px solid #ccc;
       border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      color: #666;
     }
   </style>
 </head>
@@ -56,7 +69,12 @@
   <div class="container">
     <h1 id="status">Vérification en cours...</h1>
     <p id="message">Merci de patienter.</p>
-    <input type="password" id="newPassword" placeholder="Nouveau mot de passe" style="display:none;" />
+
+    <div class="password-wrapper" id="passwordWrapper" style="display:none;">
+      <input type="password" id="newPassword" placeholder="Nouveau mot de passe" />
+      <span class="toggle-password" id="togglePassword">👁️</span>
+    </div>
+
     <button id="resetBtn" style="display:none;">Réinitialiser</button>
     <a href="connexion.html" id="link" style="display:none;">Se connecter</a>
   </div>
@@ -65,7 +83,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
     import { getAuth, applyActionCode, confirmPasswordReset } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
-    // ✅ Ta config Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyDLrPKEzDueP4j-HjAdOhmkuA74cLsCn2M",
       authDomain: "diallo-ee5aa.firebaseapp.com",
@@ -76,17 +93,14 @@
       measurementId: "G-F3092DTNZY"
     };
 
-    // Init Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Récupère les paramètres de l’URL
     const urlParams = new URLSearchParams(window.location.search);
     const mode = urlParams.get("mode");
     const oobCode = urlParams.get("oobCode");
 
     if (mode === "verifyEmail" && oobCode) {
-      // ✅ Vérification email
       applyActionCode(auth, oobCode)
         .then(() => {
           document.getElementById("status").textContent = "Email confirmé ✅";
@@ -99,19 +113,35 @@
         });
 
     } else if (mode === "resetPassword" && oobCode) {
-      // 🔑 Réinitialisation mot de passe
       document.getElementById("status").textContent = "Réinitialisation du mot de passe 🔑";
       document.getElementById("message").textContent = "Veuillez entrer votre nouveau mot de passe.";
-      document.getElementById("newPassword").style.display = "block";
+      document.getElementById("passwordWrapper").style.display = "block";
       document.getElementById("resetBtn").style.display = "inline-block";
 
+      const togglePassword = document.getElementById("togglePassword");
+      const newPasswordInput = document.getElementById("newPassword");
+
+      togglePassword.addEventListener("click", () => {
+        if (newPasswordInput.type === "password") {
+          newPasswordInput.type = "text";
+          togglePassword.textContent = "🙈";
+        } else {
+          newPasswordInput.type = "password";
+          togglePassword.textContent = "👁️";
+        }
+      });
+
       document.getElementById("resetBtn").addEventListener("click", () => {
-        const newPassword = document.getElementById("newPassword").value;
+        const newPassword = newPasswordInput.value;
+        if (!newPassword) {
+          alert("Veuillez entrer un mot de passe.");
+          return;
+        }
         confirmPasswordReset(auth, oobCode, newPassword)
           .then(() => {
             document.getElementById("status").textContent = "Mot de passe changé ✅";
             document.getElementById("message").textContent = "Votre mot de passe a bien été réinitialisé. Vous pouvez maintenant vous connecter.";
-            document.getElementById("newPassword").style.display = "none";
+            document.getElementById("passwordWrapper").style.display = "none";
             document.getElementById("resetBtn").style.display = "none";
             document.getElementById("link").style.display = "inline-block";
           })
@@ -128,3 +158,51 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
