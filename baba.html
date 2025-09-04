@@ -134,7 +134,7 @@
       document.getElementById("resetBtn").addEventListener("click", () => {
         const newPassword = newPasswordInput.value;
         if (!newPassword) {
-          alert("Veuillez entrer un mot de passe.");
+          alert("Veuillez entrer un mot de passe."); 
           return;
         }
         confirmPasswordReset(auth, oobCode, newPassword) 
