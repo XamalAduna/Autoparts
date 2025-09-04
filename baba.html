@@ -137,7 +137,7 @@
           alert("Veuillez entrer un mot de passe.");
           return;
         }
-        confirmPasswordReset(auth, oobCode, newPassword)
+        confirmPasswordReset(auth, oobCode, newPassword) 
           .then(() => {
             document.getElementById("status").textContent = "Mot de passe changé ✅";
             document.getElementById("message").textContent = "Votre mot de passe a bien été réinitialisé. Vous pouvez maintenant vous connecter.";
