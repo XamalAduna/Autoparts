@@ -3,26 +3,102 @@
 
 
 
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <title>Connexion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive -->
   <style>
-    body { font-family: Arial; background:#f3f3f3; display:flex; justify-content:center; align-items:center; min-height:100vh; }
-    .form-container { background:#fff; padding:25px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2); width:350px; }
+    body {
+      font-family: Arial, sans-serif;
+      background:#f3f3f3;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+      margin:0;
+      padding:0;
+    }
+    .form-container {
+      background:#fff;
+      padding:25px;
+      border-radius:10px;
+      box-shadow:0 5px 15px rgba(0,0,0,0.2);
+      width:100%;
+      max-width:400px; /* limite sur grand écran */
+      box-sizing:border-box;
+      margin: 10px;
+    }
     h2 { text-align:center; margin-bottom:20px; }
     .form-group { margin-bottom:15px; position:relative; }
     label { display:block; font-weight:bold; margin-bottom:5px; }
-    input { width:100%; padding:10px; border-radius:5px; border:1px solid #ccc; }
+    input {
+      width:100%;
+      padding:10px;
+      border-radius:5px;
+      border:1px solid #ccc;
+      box-sizing:border-box;
+    }
     input:focus { border-color:#009688; outline:none; }
-    .toggle-password { position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; font-size:18px; color:#666; }
+    .toggle-password {
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      cursor:pointer;
+      font-size:18px;
+      color:#666;
+    }
     .error { color:red; font-size:13px; margin-top:3px; }
     .success { color:green; font-size:14px; margin-top:5px; }
-    button { width:100%; padding:12px; background:#009688; border:none; color:white; font-size:16px; border-radius:5px; cursor:pointer; }
+    button {
+      width:100%;
+      padding:12px;
+      background:#009688;
+      border:none;
+      color:white;
+      font-size:16px;
+      border-radius:5px;
+      cursor:pointer;
+    }
     button:hover { background:#00796B; }
-    a { display:block; text-align:right; margin-top:10px; color:#009688; text-decoration:none; font-size:13px; }
+    a {
+      display:block;
+      text-align:right;
+      margin-top:10px;
+      color:#009688;
+      text-decoration:none;
+      font-size:13px;
+    }
     a:hover { text-decoration:underline; }
+
+    /* Loader */
+    #loader { display:none; text-align:center; margin-top:15px; }
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #009688;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin:auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .form-container {
+        width:95%;
+        padding:20px;
+        border-radius:8px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -42,6 +118,7 @@
       </div>
       <button type="submit">Se connecter</button>
     </form>
+    <div id="loader"><div class="spinner"></div></div>
     <a href="#" id="forgotPassword">Mot de passe oublié ?</a>
     <p id="loginMessage"></p>
   </div>
@@ -67,8 +144,8 @@
     const emailError = document.getElementById("emailError");
     const passwordError = document.getElementById("passwordError");
     const loginMessage = document.getElementById("loginMessage");
+    const loader = document.getElementById("loader");
 
-    // Oeil pour le mot de passe
     const togglePasswordSpan = document.querySelector(".toggle-password");
     const loginPassword = document.getElementById("loginPassword");
     togglePasswordSpan.addEventListener("click", () => {
@@ -89,34 +166,31 @@
       if (!email) { emailError.textContent = "Veuillez entrer votre email."; return; }
       if (!password) { passwordError.textContent = "Veuillez entrer votre mot de passe."; return; }
 
+      loader.style.display = "block";
+
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-
-        // Rafraîchir les infos pour récupérer emailVerified à jour
         await reload(user);
 
         if (!user.emailVerified) {
-        loginMessage.textContent = "⚠️ Veuillez confirmer votre email avant de vous connecter.";
-        loginMessage.className = "error";
-        await signOut(auth); // déconnecte l'utilisateur
-        return;
-         }
-
-
-
+          loginMessage.textContent = "⚠️ Veuillez confirmer votre email avant de vous connecter.";
+          loginMessage.className = "error";
+          await signOut(auth);
+          return;
+        }
 
         loginMessage.textContent = "✅ Connexion réussie !";
         loginMessage.className = "success";
 
       } catch {
-        // Tous les autres problèmes deviennent ce message en bas
         loginMessage.textContent = "Email ou mot de passe incorrect";
         loginMessage.className = "error";
+      } finally {
+        loader.style.display = "none";
       }
     });
 
-    // Mot de passe oublié
     document.getElementById("forgotPassword").addEventListener("click", async (e) => {
       e.preventDefault();
       const email = prompt("Entrez votre email pour réinitialiser votre mot de passe :");
@@ -128,7 +202,6 @@
         alert("Erreur : " + error.message);
       }
     });
-
   </script>
 </body>
 </html>
