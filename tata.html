@@ -10,7 +10,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Connexion</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"> <!-- Responsive + bloque zoom iOS -->
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -41,6 +41,7 @@
       border-radius:5px;
       border:1px solid #ccc;
       box-sizing:border-box;
+      font-size:16px; /* ✅ empêche le zoom iPhone */
     }
     input:focus { border-color:#009688; outline:none; }
     .toggle-password {
